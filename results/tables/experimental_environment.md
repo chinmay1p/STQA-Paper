@@ -1,0 +1,12 @@
+### Table 2: Experimental Environment and Configuration
+
+| Item                        | Specification                                                  |
+|:----------------------------|:---------------------------------------------------------------|
+| Operating System            | Windows 10 (10.0.26200)                                        |
+| Python Runtime              | Python 3.11.9 (64-bit)                                         |
+| Test Runner                 | pytest 9.1.1                                                   |
+| Machine Learning Library    | scikit-learn 1.9.1                                             |
+| Data Handling               | pandas 3.0.6, numpy 2.4.6                                      |
+| Random Seed                 | 42 (deterministic across all modules)                          |
+| Random Baseline Repetitions | 20 iterations per scenario and budget                          |
+| Data Leakage Safeguard      | Grouped scenario split; prior-only historical failure tracking |

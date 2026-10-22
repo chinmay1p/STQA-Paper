@@ -1,0 +1,4 @@
+budget_pct,metric,n_paired_scenarios,ai_mean,random_mean,mean_difference (AI - Random),test_type,statistic,p_value,statistically_significant_alpha_005
+0.25,Fault Detection Rate (%),5,40.0,22.0,18.0,Wilcoxon signed-rank (one-tailed: AI > Random),9.0,0.4062,False
+0.5,Fault Detection Rate (%),5,80.0,50.0,30.0,Wilcoxon signed-rank (one-tailed: AI > Random),10.0,0.3125,False
+0.75,Fault Detection Rate (%),5,80.0,70.0,10.0,Wilcoxon signed-rank (one-tailed: AI > Random),10.0,0.3438,False

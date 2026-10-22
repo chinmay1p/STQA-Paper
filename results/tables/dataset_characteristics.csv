@@ -1,0 +1,12 @@
+Characteristic,Value
+Target Application,sample_app (E-Commerce Logic)
+Application Modules,"6 (discount, tax, auth, cart, orders, payment)"
+Total Regression Tests,30 unit test cases (5 per module)
+Total Change Scenarios,16 controlled real-execution scenarios
+Training Scenarios,10 scenarios (SC-01 to SC-10)
+Evaluation Test Scenarios,6 held-out scenarios (SC-11 to SC-16)
+Total Seeded Faults,"11 faults (6 in train, 5 in test)"
+Clean / Non-Faulty Scenarios,"5 scenarios (4 in train, 1 in test)"
+Total Matrix Records,480 pairs (16 scenarios × 30 tests)
+Train Dataset Records,300 rows
+Held-Out Test Records,180 rows

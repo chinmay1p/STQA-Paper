@@ -1,0 +1,10 @@
+method,budget_pct,mean_tests_selected,mean_test_reduction_pct,mean_execution_time_sec,mean_selection_overhead_sec,mean_total_workflow_time_sec,mean_time_saving_pct,mean_total_time_saving_pct,mean_fault_detection_rate_pct,fault_detection_rate_std,total_faults_detected,total_eligible_faults,aggregate_fault_detection_pct
+AI_Selection,0.25,8.0,73.33,0.5277,0.007166,0.5348,15.21,14.05,40.0,54.77,2,5,40.0
+AI_Selection,0.5,15.0,50.0,0.5593,0.007217,0.5666,10.52,9.38,80.0,44.72,4,5,80.0
+AI_Selection,0.75,22.0,26.67,0.5504,0.007086,0.5575,11.64,10.53,80.0,44.72,4,5,80.0
+AI_Selection,1.0,30.0,0.0,0.5881,0.006811,0.5949,5.41,4.33,100.0,0.0,5,5,100.0
+Change_Based,1.0,15.0,50.0,0.5844,1.4e-05,0.5844,6.39,6.39,100.0,0.0,5,5,100.0
+Full_Suite,1.0,30.0,0.0,0.6238,2e-06,0.6238,0.0,0.0,100.0,0.0,5,5,100.0
+Random_Selection,0.25,8.0,73.33,0.4753,3.6e-05,0.4753,22.15,22.15,22.0,11.51,1,5,22.0
+Random_Selection,0.5,15.0,50.0,0.5068,3.9e-05,0.5069,16.63,16.63,50.0,11.73,2,5,50.0
+Random_Selection,0.75,22.0,26.67,0.5153,4e-05,0.5154,15.07,15.06,70.0,9.35,3,5,70.0

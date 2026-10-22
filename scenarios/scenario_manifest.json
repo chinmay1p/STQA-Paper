@@ -1,0 +1,233 @@
+[
+  {
+    "scenario_id": "SC-01",
+    "name": "Discount tier cap boundary adjustment",
+    "changed_module": "discount",
+    "code_churn": 5,
+    "has_fault": true,
+    "fault_id": "F01",
+    "expected_failing_tests": [
+      "tests/test_discount.py::test_discount_cap_boundary"
+    ],
+    "description": "Mutated validate_discount_cap floor calculation formula to original_price * max_discount_pct instead of (1.0 - max_discount_pct)",
+    "modification_type": "Faulty logic",
+    "target_file": "sample_app/discount.py",
+    "mutant_file": "scenarios/mutants/SC-01_discount.py"
+  },
+  {
+    "scenario_id": "SC-02",
+    "name": "Refactor sales tax rate lookup structure",
+    "changed_module": "tax",
+    "code_churn": 8,
+    "has_fault": false,
+    "fault_id": null,
+    "expected_failing_tests": [],
+    "description": "Refactored tax rate retrieval with safe uppercase strip check without altering numeric rates",
+    "modification_type": "Clean refactoring",
+    "target_file": "sample_app/tax.py",
+    "mutant_file": "scenarios/mutants/SC-02_tax.py"
+  },
+  {
+    "scenario_id": "SC-03",
+    "name": "Password strength symbol validation strictness",
+    "changed_module": "authentication",
+    "code_churn": 6,
+    "has_fault": true,
+    "fault_id": "F02",
+    "expected_failing_tests": [
+      "tests/test_authentication.py::test_password_strength_criteria"
+    ],
+    "description": "Mutated symbol validation regex by omitting both '@' and '!' characters from permitted special symbols",
+    "modification_type": "Faulty logic",
+    "target_file": "sample_app/authentication.py",
+    "mutant_file": "scenarios/mutants/SC-03_authentication.py"
+  },
+  {
+    "scenario_id": "SC-04",
+    "name": "Cart clear method memory reset optimization",
+    "changed_module": "cart",
+    "code_churn": 6,
+    "has_fault": false,
+    "fault_id": null,
+    "expected_failing_tests": [],
+    "description": "Clean optimization to shopping cart item dictionary reinitialization",
+    "modification_type": "Clean optimization",
+    "target_file": "sample_app/cart.py",
+    "mutant_file": "scenarios/mutants/SC-04_cart.py"
+  },
+  {
+    "scenario_id": "SC-05",
+    "name": "Order shipping excess weight multiplier calculation",
+    "changed_module": "orders",
+    "code_churn": 7,
+    "has_fault": true,
+    "fault_id": "F03",
+    "expected_failing_tests": [
+      "tests/test_orders.py::test_shipping_cost_calculation"
+    ],
+    "description": "Mutated shipping excess weight fee multiplier from 2.50 to 3.50",
+    "modification_type": "Faulty logic",
+    "target_file": "sample_app/orders.py",
+    "mutant_file": "scenarios/mutants/SC-05_orders.py"
+  },
+  {
+    "scenario_id": "SC-06",
+    "name": "Payment currency lookup error reporting formatting",
+    "changed_module": "payment",
+    "code_churn": 8,
+    "has_fault": false,
+    "fault_id": null,
+    "expected_failing_tests": [],
+    "description": "Clean logging and formatted validation message on currency conversion",
+    "modification_type": "Clean enhancement",
+    "target_file": "sample_app/payment.py",
+    "mutant_file": "scenarios/mutants/SC-06_payment.py"
+  },
+  {
+    "scenario_id": "SC-07",
+    "name": "Bulk quantity discount tier boundary condition",
+    "changed_module": "discount",
+    "code_churn": 9,
+    "has_fault": true,
+    "fault_id": "F04",
+    "expected_failing_tests": [
+      "tests/test_discount.py::test_discount_bulk_quantities"
+    ],
+    "description": "Off-by-one fault in bulk discount: used > 50 instead of >= 50",
+    "modification_type": "Faulty boundary",
+    "target_file": "sample_app/discount.py",
+    "mutant_file": "scenarios/mutants/SC-07_discount.py"
+  },
+  {
+    "scenario_id": "SC-08",
+    "name": "Tax exemption certificate character length criterion",
+    "changed_module": "tax",
+    "code_churn": 7,
+    "has_fault": true,
+    "fault_id": "F05",
+    "expected_failing_tests": [
+      "tests/test_tax.py::test_tax_exemption_rules",
+      "tests/test_orders.py::test_order_with_tax_exemption_and_free_shipping"
+    ],
+    "description": "Increased minimum tax exemption certificate length requirement from 5 to 12 chars",
+    "modification_type": "Faulty logic",
+    "target_file": "sample_app/tax.py",
+    "mutant_file": "scenarios/mutants/SC-08_tax.py"
+  },
+  {
+    "scenario_id": "SC-09",
+    "name": "Cart item subtotal accumulation refactoring",
+    "changed_module": "cart",
+    "code_churn": 10,
+    "has_fault": false,
+    "fault_id": null,
+    "expected_failing_tests": [],
+    "description": "Clean refactoring of cart subtotal accumulation loop",
+    "modification_type": "Clean refactoring",
+    "target_file": "sample_app/cart.py",
+    "mutant_file": "scenarios/mutants/SC-09_cart.py"
+  },
+  {
+    "scenario_id": "SC-10",
+    "name": "Debit card payment gateway transaction fee parameter",
+    "changed_module": "payment",
+    "code_churn": 5,
+    "has_fault": true,
+    "fault_id": "F06",
+    "expected_failing_tests": [
+      "tests/test_payment.py::test_gateway_fee_models"
+    ],
+    "description": "Mutated debit card fixed gateway fee from $0.20 to $0.40",
+    "modification_type": "Faulty parameter",
+    "target_file": "sample_app/payment.py",
+    "mutant_file": "scenarios/mutants/SC-10_payment.py"
+  },
+  {
+    "scenario_id": "SC-11",
+    "name": "Seasonal promotion clearance and holiday stacking rate",
+    "changed_module": "discount",
+    "code_churn": 8,
+    "has_fault": true,
+    "fault_id": "F07",
+    "expected_failing_tests": [
+      "tests/test_discount.py::test_discount_seasonal_promotions"
+    ],
+    "description": "Mutated combined seasonal discount rate from 0.22 to 0.25",
+    "modification_type": "Faulty logic",
+    "target_file": "sample_app/discount.py",
+    "mutant_file": "scenarios/mutants/SC-11_discount.py"
+  },
+  {
+    "scenario_id": "SC-12",
+    "name": "Username whitespace sanitization case safety",
+    "changed_module": "authentication",
+    "code_churn": 6,
+    "has_fault": false,
+    "fault_id": null,
+    "expected_failing_tests": [],
+    "description": "Clean strip and lowercasing refactor in username sanitization",
+    "modification_type": "Clean refactoring",
+    "target_file": "sample_app/authentication.py",
+    "mutant_file": "scenarios/mutants/SC-12_authentication.py"
+  },
+  {
+    "scenario_id": "SC-13",
+    "name": "Texas sales tax statutory percentage update",
+    "changed_module": "tax",
+    "code_churn": 6,
+    "has_fault": true,
+    "fault_id": "F08",
+    "expected_failing_tests": [
+      "tests/test_tax.py::test_sales_tax_jurisdictions"
+    ],
+    "description": "Mutated Texas state sales tax rate from 0.0625 to 0.0725",
+    "modification_type": "Faulty parameter",
+    "target_file": "sample_app/tax.py",
+    "mutant_file": "scenarios/mutants/SC-13_tax.py"
+  },
+  {
+    "scenario_id": "SC-14",
+    "name": "Shopping cart capacity boundary operator condition",
+    "changed_module": "cart",
+    "code_churn": 7,
+    "has_fault": true,
+    "fault_id": "F09",
+    "expected_failing_tests": [
+      "tests/test_cart.py::test_cart_capacity_overflow"
+    ],
+    "description": "Mutated capacity overflow condition from >= max_items to > max_items",
+    "modification_type": "Faulty boundary",
+    "target_file": "sample_app/cart.py",
+    "mutant_file": "scenarios/mutants/SC-14_cart.py"
+  },
+  {
+    "scenario_id": "SC-15",
+    "name": "Order totals free shipping coupon calculation",
+    "changed_module": "orders",
+    "code_churn": 10,
+    "has_fault": true,
+    "fault_id": "F10",
+    "expected_failing_tests": [
+      "tests/test_orders.py::test_order_with_tax_exemption_and_free_shipping"
+    ],
+    "description": "Mutated shipping fee calculation by failing to zero out shipping when FREESHIP coupon provided",
+    "modification_type": "Faulty logic",
+    "target_file": "sample_app/orders.py",
+    "mutant_file": "scenarios/mutants/SC-15_orders.py"
+  },
+  {
+    "scenario_id": "SC-16",
+    "name": "Payment Luhn checksum alternating index parity",
+    "changed_module": "payment",
+    "code_churn": 12,
+    "has_fault": true,
+    "fault_id": "F11",
+    "expected_failing_tests": [
+      "tests/test_payment.py::test_luhn_algorithm_validation"
+    ],
+    "description": "Mutated Luhn digit doubling index from odd (i % 2 == 1) to even (i % 2 == 0)",
+    "modification_type": "Faulty logic",
+    "target_file": "sample_app/payment.py",
+    "mutant_file": "scenarios/mutants/SC-16_payment.py"
+  }
+]

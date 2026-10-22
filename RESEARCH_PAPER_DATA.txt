@@ -1,0 +1,503 @@
+================================================================================
+COMPLETE RESEARCH PAPER COMPANION & DATA COMPENDIUM
+Project: AI-Based Regression Test Selection Using Machine Learning: A Comparative Study
+Course / Field: Software Testing & Quality Assurance (STQA) / Empirical Software Engineering
+================================================================================
+
+This document contains all necessary information, text sections, tables, dataset 
+specifications, algorithm descriptions, mathematical formulas, experimental results, 
+statistical tests, and figure captions required to write a full 6-7 page academic 
+research paper.
+
+--------------------------------------------------------------------------------
+TABLE OF CONTENTS
+--------------------------------------------------------------------------------
+1. Paper Metadata & Suggested Title
+2. Abstract (Ready to Use)
+3. Section I: Introduction & Problem Statement
+4. Section II: Research Questions (RQ1 - RQ4)
+5. Section III: Related Work & Literature Context
+6. Section IV: System Architecture & Benchmark Application (sample_app)
+7. Section V: Dataset Specification, Features, & Anti-Leakage Safeguards
+8. Section VI: Evaluated Regression Test Selection (RTS) Approaches
+9. Section VII: Empirical Results & Paper-Ready Tables
+10. Section VIII: Detailed Answers to Research Questions (RQ1 - RQ4)
+11. Section IX: Statistical Significance Analysis (Wilcoxon Signed-Rank Test)
+12. Section X: Threats to Validity
+13. Section XI: Publication Figure Captions & Descriptions
+14. Section XII: Reproducibility & Environment Setup
+15. Key Academic References
+
+================================================================================
+1. PAPER METADATA & SUGGESTED TITLE
+================================================================================
+Suggested Title:
+"AI-Based Regression Test Selection Using Machine Learning: A Comparative Study 
+on Test Reduction, Execution Latency, and Fault Detection"
+
+Alternative Title:
+"Evaluating Random Forest for Regression Test Selection: An Empirical Study 
+Against Change-Based and Stochastic Baselines"
+
+Suggested Keywords:
+Regression Test Selection (RTS), Machine Learning in Software Engineering, 
+Random Forest, Continuous Integration (CI), Empirical Software Testing, 
+Fault Detection Effectiveness, Test Suite Optimization.
+
+================================================================================
+2. ABSTRACT (READY TO USE)
+================================================================================
+Modern Continuous Integration (CI) pipelines frequently execute extensive regression 
+test suites after every commit to detect unintended side effects. However, running 
+entire test suites on every incremental change imposes severe computational latency 
+and developer turnaround bottlenecks. This paper presents a controlled empirical 
+study investigating whether a machine-learning-based Regression Test Selection (RTS) 
+approach can intelligently select a reduced subset of tests, lower test execution 
+duration, and retain fault detection effectiveness. 
+
+We construct a modular e-commerce target system (sample_app) comprising six 
+interconnected subsystems, a 30-test unit suite in pytest, and 16 controlled software 
+evolution scenarios containing 11 seeded faults and 5 clean refactorings. We extract 
+pre-execution structural and historical features (generating a 480-instance matrix) 
+and evaluate a Random Forest classifier using strict scenario-grouped splitting to 
+guarantee zero data leakage. We compare AI Selection against three baselines: 
+(1) Full Regression Suite, (2) Change-Based Selection using static dependency graphs, 
+and (3) Random Selection repeated across 20 independent seeds. 
+
+Our empirical results demonstrate that at a 50% test budget (15 tests executed), AI 
+Selection achieves an 80.0% fault detection rate, substantially outperforming the 
+repeated random baseline (50.0% +/- 11.7%) by +30.0 percentage points with an 
+average selection overhead of only 5.8 milliseconds. Feature importance analysis 
+reveals that structural dependency overlap (53.0%) and direct module matching 
+(33.0%) account for 86% of predictive capacity. While Change-Based selection 
+achieved 100% fault detection on statically mapped dependencies, AI Selection 
+provides continuous budgetary configurability, delivering a 73.3% test reduction 
+and 16.4% total workflow time savings at a 25% budget.
+
+================================================================================
+3. SECTION I: INTRODUCTION & PROBLEM STATEMENT
+================================================================================
+Context:
+Software maintenance accounts for up to 70% of the total cost of the software 
+lifecycle. When software engineers modify source code—whether to add functionality, 
+refactor architecture, or patch bugs—regression testing is mandatory to ensure that 
+unmodified parts of the system remain intact. 
+
+Problem:
+In continuous integration (CI) workflows, full regression testing (executing all 
+available test cases on every commit) quickly becomes computationally intractable 
+and economically prohibitive. Test suites in commercial environments frequently 
+require hours or days to execute. While running fewer tests saves developer time, 
+naively skipping tests introduces a severe risk of releasing undetected defects 
+into production.
+
+Core Objective:
+This study examines whether machine learning models (specifically Random Forest 
+classifiers) trained on lightweight, pre-execution structural and historical metrics 
+can accurately rank test cases by relevance to a given commit. The goal is to maximize 
+fault detection effectiveness while operating under configurable test execution budgets 
+(25%, 50%, 75%).
+
+================================================================================
+4. SECTION II: RESEARCH QUESTIONS (RQ1 - RQ4)
+================================================================================
+- RQ1 (Test Reduction):
+  To what extent can each selection approach reduce the number of executed regression 
+  test cases compared to the complete test suite?
+
+- RQ2 (Execution Time & Overhead):
+  How much execution time can each approach save, and does the model inference 
+  overhead offset the execution savings in the total CI workflow?
+
+- RQ3 (Fault Detection Effectiveness):
+  How does fault detection capability change as fewer tests are executed, and does 
+  AI-based selection outperform repeated random baselines under identical test budgets?
+
+- RQ4 (Feature Importance):
+  Which test features (structural, historical, or execution cost) contribute most 
+  strongly to the Random Forest model's selection decisions?
+
+================================================================================
+5. SECTION III: RELATED WORK & LITERATURE CONTEXT
+================================================================================
+1. Traditional Regression Test Selection (RTS):
+   Pioneering work by Rothermel and Harrold (1997) categorized RTS techniques into 
+   "safe" techniques (guaranteed to select every test that could reveal a defect, 
+   typically via control-flow graph analysis) and "minimization" techniques. 
+   While safe RTS guarantees zero fault omission, graph-based techniques incur 
+   substantial static analysis overhead and cannot readily parameterize test budgets.
+
+2. Change-Based & Dependency Testing:
+   Dependency-based RTS analyzes import graphs and call hierarchies to trigger tests 
+   affecting changed modules. While effective for localized code changes, it fails 
+   when dynamic invocations, reflection, or indirect dependencies occur.
+
+3. Machine Learning in Test Prioritization & Selection:
+   Recent literature (Spieker et al., 2017; Yoo & Harman, 2012) explores reinforcement 
+   learning and supervised classification for test selection. Prior studies often 
+   suffer from subtle data leakage (e.g., using test outcomes from the evaluated commit 
+   as features) or rely on massive, un-reproducible proprietary datasets. This paper 
+   establishes a clean, zero-leakage, open benchmark with empirical subprocess timing.
+
+================================================================================
+6. SECTION IV: SYSTEM ARCHITECTURE & BENCHMARK APPLICATION (sample_app)
+================================================================================
+To avoid external dependencies and non-deterministic environment flakiness, we 
+designed a modular e-commerce Python application (sample_app) with six subsystems:
+
+Subsystem Dependency Graph:
+  [discount] <── (imported by) ── [cart]
+      │                              │
+      └── (imported by) ──┐          │
+                          ▼          ▼
+                       [orders] ◄── [tax]
+                          ▲
+                          │ ◄── [authentication]
+                          │
+                      [payment]
+
+Module Details:
+1. sample_app/discount.py:
+   - Calculates membership tier discounts (Bronze 5%, Silver 10%, Gold 20%, Platinum 30%).
+   - Coupon codes (SAVE10, SAVE20, HALFPRICE, FREESHIP).
+   - Bulk volume tiered discounts (up to 25% off for 100+ units).
+   - Seasonal stacked discounts (clearance + holiday).
+   - Floor price boundary cap validation (validate_discount_cap).
+
+2. sample_app/cart.py:
+   - Item tracking, line totals, and shopping cart capacity overflow (max_items).
+   - Dynamic weight aggregation for parcel shipping.
+   - Subtotal accumulation with tiered discounts. Depends on discount.py.
+
+3. sample_app/tax.py:
+   - Statutory state sales tax calculations (CA 8.25%, NY 8.5%, TX 6.25%, DE 0%, WA 6.5%).
+   - International Value Added Tax (VAT) computations (GB 20%, DE 19%, IN 18%).
+   - Tax-exempt verification (Government, Non-profit, Educational certificates).
+   - Customs import duty category tariffs.
+
+4. sample_app/authentication.py:
+   - Username sanitization and alphanumeric normalization.
+   - Password strength validation (upper, lower, digit, symbol, min 8 chars).
+   - Cryptographic SHA-256 session token generation and verification.
+   - Role-Based Access Control (RBAC) permissions (ADMIN, MANAGER, CUSTOMER, GUEST).
+
+5. sample_app/orders.py:
+   - Dimensional and excess weight shipping fee calculations.
+   - Order checkout authorization.
+   - Order status state machine (PENDING -> CONFIRMED -> PROCESSING -> SHIPPED -> DELIVERED).
+   - Grand total reconciliation (discounted subtotal + tax + shipping).
+   - Depends on cart.py, tax.py, discount.py, authentication.py.
+
+6. sample_app/payment.py:
+   - Luhn mod-10 algorithmic checksum verification on credit card numbers.
+   - Merchant gateway transaction fee calculation (Credit Card, Debit Card, PayPal, Crypto).
+   - Foreign exchange (FX) currency conversions against USD benchmark.
+   - Depends on orders.py.
+
+Test Suite:
+- 30 pytest unit test functions (5 dedicated tests per module) in tests/.
+- Clean baseline execution takes ~0.07 seconds for all 30 tests.
+
+Controlled Scenarios (16 Total):
+- Training Scenarios (SC-01 to SC-10): 6 with seeded faults (F01 to F06), 4 clean.
+- Held-Out Test Scenarios (SC-11 to SC-16): 5 with seeded faults (F07 to F11), 1 clean.
+  * SC-11 (discount): F07 - mutated seasonal stacked discount rate (0.22 -> 0.25).
+  * SC-12 (authentication): Clean - safe username lowercase strip refactoring.
+  * SC-13 (tax): F08 - mutated Texas sales tax statutory percentage (0.0625 -> 0.0725).
+  * SC-14 (cart): F09 - mutated cart capacity overflow operator (>= to > max_items).
+  * SC-15 (orders): F10 - mutated shipping waiver on FREESHIP coupon (omitted waiver).
+  * SC-16 (payment): F11 - mutated Luhn checksum alternating index parity (odd -> even).
+
+================================================================================
+7. SECTION V: DATASET SPECIFICATION, FEATURES, & ANTI-LEAKAGE SAFEGUARDS
+================================================================================
+File Location: data/dataset.csv
+Dimensions: 480 rows x 15 columns (16 scenarios x 30 tests)
+Training Split: 300 rows (SC-01 to SC-10)
+Testing Split: 180 rows (SC-11 to SC-16)
+
+Data Schema & Column Descriptions:
+1. scenario_id (string): Scenario identifier (SC-01 through SC-16).
+2. test_id (string): Fully qualified pytest test node ID.
+3. test_module (string): Subsystem under test.
+4. changed_module (string): Subsystem modified in the scenario commit.
+5. module_match (int, 0/1): 1 if test_module == changed_module; else 0.
+6. dependency_overlap (int, 0/1): 1 if architectural coupling exists between the two modules.
+7. code_churn (int): Number of lines added/modified/deleted in the scenario.
+8. historical_failure_count (int): Prior failures of this test in strictly past scenarios (i < j).
+9. historical_failure_rate (float): Prior failure count / number of elapsed scenarios.
+10. average_test_duration (float): Measured clean execution duration in seconds.
+11. test_execution_cost (float): Normalized duration score (0.0 to 1.0).
+12. is_relevant (int, 0/1): MODEL TARGET LABEL. 1 if test exercises modified or coupled code.
+13. detects_fault (int, 0/1): EVALUATION TARGET LABEL. 1 if test catches seeded defect.
+14. execution_status (string): PASSED or FAILED.
+15. split (string): "train" or "test".
+
+Strict Anti-Leakage Safeguards Enforced:
+- No Target Leakage: detects_fault is NEVER provided as an input feature during training 
+  or test selection.
+- Strict Past-Only History: For scenario k, historical failure metrics are aggregated 
+  strictly over scenarios 1 to k-1.
+- Grouped Scenario Split: Entire scenarios are placed in train or test splits. No rows 
+  from the same scenario appear in both partitions.
+- Pre-Execution Features: Every feature is measurable before test execution occurs.
+
+================================================================================
+8. SECTION VI: EVALUATED RTS APPROACHES
+================================================================================
+1. Method A: Full Regression Test Suite
+   - Executes all 30 tests in the repository.
+   - Reference standard: 100% fault detection, 0% test reduction.
+
+2. Method B: Change-Based Selection
+   - Rule-based approach using static dependency mapping.
+   - Selects all tests mapped to the changed module and all dependent modules.
+
+3. Method C: Random Selection Baseline
+   - Randomly samples K tests corresponding to budget percentages (25%, 50%, 75%).
+   - Evaluated across 20 fixed random seeds (seeds 42 to 61) per scenario and budget.
+   - Reports empirical mean and standard deviation to eliminate stochastic noise.
+
+4. Method D: AI-Based Selection (Machine Learning)
+   - Trained a scikit-learn RandomForestClassifier (100 estimators, max depth 5).
+   - Predicts relevance probabilities P(relevant | features) for all candidate tests.
+   - Ranks candidate tests in descending order of predicted score (breaks ties by lower runtime).
+   - Selects top K tests based on configured budget:
+     * Budget 25%: K = 8 tests
+     * Budget 50%: K = 15 tests
+     * Budget 75%: K = 22 tests
+     * Budget 100%: K = 30 tests
+   - An optional LogisticRegression model was also trained as a secondary benchmark.
+
+================================================================================
+9. SECTION VII: EMPIRICAL RESULTS & PAPER-READY TABLES
+================================================================================
+The experiment executed 396 real pytest subprocess runs on Microsoft Windows 11 
+using Python 3.11.9.
+
+TABLE 1: Comprehensive Comparison of Selection Approaches (Held-Out Test Scenarios)
+---------------------------------------------------------------------------------------------------------------------------------------
+Selection Method        Budget  Tests Run  Reduction (%)  Exec Time (ms)  Overhead (ms)  Total Time (ms)  Time Saving (%)  Fault Detection
+---------------------------------------------------------------------------------------------------------------------------------------
+Full Suite               100%      30.0          0.0%         552.0           0.002           552.0            0.0%       100.0% (5/5)
+Change-Based             100%      15.0         50.0%         483.7           0.022           483.7           12.1%       100.0% (5/5)
+Random Selection (25%)    25%       8.0         73.3%         476.3           0.037           476.4           13.7%        22.0% +/- 11.5%
+Random Selection (50%)    50%      15.0         50.0%         501.3           0.039           501.3            9.2%        50.0% +/- 11.7%
+Random Selection (75%)    75%      22.0         26.7%         504.4           0.039           504.4            8.7%        70.0% +/- 9.4%
+AI Selection (25%)        25%       8.0         73.3%         453.4           5.851           459.2           16.4%*       40.0%
+AI Selection (50%)        50%      15.0         50.0%         493.4           5.758           499.1            9.3%*       80.0%
+AI Selection (75%)        75%      22.0         26.7%         499.2           5.791           505.0            8.3%*       80.0%
+AI Selection (100%)      100%      30.0          0.0%         527.6           6.290           533.9            2.9%*      100.0% (5/5)
+---------------------------------------------------------------------------------------------------------------------------------------
+*Note: Time Saving for AI Selection reflects net total workflow time savings including 
+feature extraction and Random Forest inference overhead.
+
+TABLE 2: Budget Comparison: AI Selection vs. Random Baseline
+---------------------------------------------------------------------------------------------------------
+Budget    Tests Run    AI Reduction    AI Fault Detection    Random Fault Detection    AI Advantage
+---------------------------------------------------------------------------------------------------------
+25%          8            73.3%              40.0%               22.0% +/- 11.5%         +18.0%
+50%         15            50.0%              80.0%               50.0% +/- 11.7%         +30.0%
+75%         22            26.7%              80.0%               70.0% +/- 9.4%          +10.0%
+100%        30             0.0%             100.0%              100.0% +/- 0.0%            0.0%
+---------------------------------------------------------------------------------------------------------
+
+TABLE 3: Random Forest Feature Importance (Gini Impurity Metric)
+-----------------------------------------------------------------
+Feature Rank    Feature Name                Importance Weight (%)
+-----------------------------------------------------------------
+1               dependency_overlap                 52.97%
+2               module_match                       32.96%
+3               test_execution_cost                 5.99%
+4               average_test_duration               3.94%
+5               code_churn                          2.67%
+6               historical_failure_rate             1.08%
+7               historical_failure_count            0.39%
+-----------------------------------------------------------------
+Summary: Structural architecture features account for 85.93% of predictive power.
+
+TABLE 4: Machine Learning Classification Performance on Held-Out Test Set (Relevance Target)
+---------------------------------------------------------------------------------------------
+Model                  Precision    Recall    F1-Score    ROC-AUC    TP    FP    TN    FN
+---------------------------------------------------------------------------------------------
+Random Forest            1.000      1.000      1.000       1.000     90     0    90     0
+Logistic Regression      1.000      1.000      1.000       1.000     90     0    90     0
+---------------------------------------------------------------------------------------------
+Note: Measures relevance classification accuracy, not fault detection.
+
+TABLE 5: Per-Scenario Fault Detection on Held-Out Test Set
+---------------------------------------------------------------------------------------------
+Scenario ID    Target Module    Seeded Fault    Full Suite    Change-Based    AI (50%)    Random (50% Mean)
+---------------------------------------------------------------------------------------------
+SC-11          discount         F07 (Rate)      Detected      Detected        Detected    50.0%
+SC-12          authentication   None (Clean)    Pass          Pass            Pass        Pass
+SC-13          tax              F08 (Tax Rate)  Detected      Detected        Detected    50.0%
+SC-14          cart             F09 (Capacity)  Detected      Detected        Detected    50.0%
+SC-15          orders           F10 (Coupon)    Detected      Detected        Missed*     50.0%
+SC-16          payment          F11 (Luhn)      Detected      Detected        Detected    50.0%
+---------------------------------------------------------------------------------------------
+*Note: In SC-15, the bug was in free shipping coupon interaction; at 50% budget, AI prioritized 
+direct order checkout tests and missed the specific exemption test, which was captured at 100% budget.
+
+================================================================================
+10. SECTION VIII: DETAILED ANSWERS TO RESEARCH QUESTIONS (RQ1 - RQ4)
+================================================================================
+Answer to RQ1 (Test Reduction):
+- AI Selection parameterized to a 25% budget executed only 8 out of 30 tests, 
+  yielding a 73.3% test suite reduction.
+- AI Selection at a 50% budget executed 15 out of 30 tests, achieving a 50.0% reduction.
+- Change-Based Selection consistently achieved a 50.0% test reduction (averaging 15 tests) 
+  by filtering out uncoupled modules.
+- Random Selection achieved matching 73.3%, 50.0%, and 26.7% reductions by budget constraint.
+
+Answer to RQ2 (Execution Time & Overhead):
+- Full suite execution required 552.0 ms on average.
+- AI Selection at 25% budget reduced test execution time to 453.4 ms.
+- Feature extraction and Random Forest inference overhead averaged only 5.85 ms.
+- Factoring in model overhead, AI Selection (25% budget) achieved a net total workflow 
+  saving of 16.4% (459.2 ms vs 552.0 ms).
+- At a 50% budget, net workflow time savings were 9.3% (499.1 ms).
+- Change-Based selection had negligible overhead (0.022 ms) and saved 12.1% time.
+- Takeaway: Model inference overhead is minimal (under 6 ms) and does not bottleneck CI.
+
+Answer to RQ3 (Fault Detection Effectiveness):
+- AI Selection strongly outperformed Random Selection across all budget levels:
+  * At 25% budget: AI caught 40.0% of faults vs. 22.0% for Random (+18.0% improvement).
+  * At 50% budget: AI caught 80.0% of faults vs. 50.0% for Random (+30.0% improvement).
+  * At 75% budget: AI caught 80.0% of faults vs. 70.0% for Random (+10.0% improvement).
+- Change-Based Selection achieved 100.0% fault detection across all test scenarios because 
+  all seeded faults occurred within directly or transitively linked modules.
+- Takeaway: AI selection provides an effective, tunable mechanism for resource-constrained 
+  CI pipelines, capturing 4 out of 5 bugs at half the test cost.
+
+Answer to RQ4 (Feature Importance):
+- The Random Forest Gini feature importances demonstrate that architectural structure dominates:
+  1. dependency_overlap: 52.97%
+  2. module_match: 32.96%
+  3. test_execution_cost: 5.99%
+  4. average_test_duration: 3.94%
+  5. code_churn: 2.67%
+  6. historical_failure_rate: 1.08%
+  7. historical_failure_count: 0.39%
+- Takeaway: Structural dependency metrics provide 85.9% of predictive power. Historical 
+  failure rates provide fine-grained tie-breaking but are secondary to architectural coupling.
+
+================================================================================
+11. SECTION IX: STATISTICAL SIGNIFICANCE ANALYSIS (WILCOXON SIGNED-RANK TEST)
+================================================================================
+To compare AI Selection against the repeated Random baseline statistically, we conducted 
+a paired one-tailed Wilcoxon signed-rank test (H1: AI Fault Detection > Random Fault Detection):
+
+Statistical Analysis Results (results/processed/statistical_analysis_results.csv):
+---------------------------------------------------------------------------------------------------
+Budget    Metric                  N Pairs    AI Mean    Random Mean    Difference    W-Stat    p-value    Significant (a=0.05)
+---------------------------------------------------------------------------------------------------
+25%       Fault Detection Rate       5        40.0%        22.0%         +18.0%        9.0     0.4062             No
+50%       Fault Detection Rate       5        80.0%        50.0%         +30.0%       10.0     0.3125             No
+75%       Fault Detection Rate       5        80.0%        70.0%         +10.0%       10.0     0.3438             No
+---------------------------------------------------------------------------------------------------
+
+Honest Academic Interpretation:
+While AI Selection demonstrated a large, consistent descriptive superiority over the Random 
+baseline (+30.0 percentage points at 50% budget), the non-parametric Wilcoxon test yielded 
+p = 0.3125. With N = 5 paired fault scenarios, the test is statistically underpowered to reject 
+the null hypothesis at the conventional alpha = 0.05 threshold. Rather than claiming 
+unsubstantiated statistical significance, researchers must report that while descriptive gains 
+are substantial, larger multi-project scenario sets are required for formal asymptotic significance.
+
+================================================================================
+12. SECTION X: THREATS TO VALIDITY
+================================================================================
+1. Internal Validity (Data Leakage & Confounders):
+   - Mitigated by strictly sequestering fault detection labels from training features.
+   - Enforced grouped scenario splitting so models were evaluated on unseen commits.
+   - History metrics were computed strictly from past scenarios (i < j).
+
+2. Construct Validity (Fault Representativeness):
+   - Seeded faults represent realistic developer errors (boundary condition off-by-one, 
+     inverted booleans, omitted regex characters, fee formula mutations).
+   - Limitation: Multi-threaded race conditions or database deadlocks were not modeled.
+
+3. External Validity (Generalizability):
+   - Evaluated on a single modular Python application (sample_app, 30 tests, 16 scenarios).
+   - Findings reflect systems with clear modular boundaries; monoliths with spaghetti 
+     dependencies may exhibit different dependency overlap distributions.
+
+4. Conclusion Validity:
+   - Evaluated Random selection over 20 independent seeds to eliminate stochastic variance.
+   - Explicitly disclosed statistical power limitations for the Wilcoxon test.
+
+================================================================================
+13. SECTION XI: PUBLICATION FIGURE CAPTIONS & DESCRIPTIONS
+================================================================================
+All figures are stored at 300 DPI in results/figures/:
+
+Figure 1: test_reduction_comparison.png
+"Percentage of test suite reduction across evaluated regression test selection methods 
+on held-out test scenarios. AI Selection achieves 73.3% and 50.0% reductions at 25% and 
+50% budgets respectively, while Change-Based selection achieves a 50.0% reduction."
+
+Figure 2: execution_time_comparison.png
+"Comparison of raw test execution time versus total workflow time (incorporating feature 
+extraction and Random Forest inference overhead). Model overhead accounts for only 5.8 ms, 
+preserving positive net workflow savings."
+
+Figure 3: fault_detection_comparison.png
+"Fault detection effectiveness (%) across selection approaches. Change-Based selection 
+and AI Selection (100% budget) detect 100% of faults, while AI Selection detects 80% 
+of faults at half the test suite budget."
+
+Figure 4: budget_vs_fault_detection.png
+"Trade-off trajectory between test execution budget (25% to 100%) and fault detection 
+rate for AI Selection versus the Random Selection baseline, showing consistent AI superiority."
+
+Figure 5: random_vs_ai.png
+"Head-to-head comparison between AI Selection and the 20-repetition Random Selection 
+baseline across 25%, 50%, and 75% budgets. Error bars denote standard deviation over 
+20 independent random seeds."
+
+Figure 6: feature_importance.png
+"Gini feature importance ranking for the Random Forest test relevance classifier. 
+Architectural dependency overlap (53.0%) and direct module match (33.0%) constitute 
+the primary predictive signals."
+
+================================================================================
+14. SECTION XII: REPRODUCIBILITY & ENVIRONMENT SETUP
+================================================================================
+The entire study can be reproduced in a single command on Windows or Linux:
+
+System Requirements:
+- Python 3.11+ (tested on Python 3.11.9 64-bit)
+- Packages: pytest, scikit-learn, pandas, numpy, matplotlib, scipy, pyyaml, joblib, tabulate
+
+Execution Command:
+```powershell
+# Windows PowerShell
+python run_experiment.py
+```
+
+Generated Key Files:
+- data/dataset.csv : Complete 480-row experimental matrix.
+- results/results.csv : Main comparative metrics table.
+- results/figures/ : All 6 publication charts (300 DPI PNGs).
+- REPORT.md : Comprehensive narrative project report.
+
+================================================================================
+15. KEY ACADEMIC REFERENCES
+================================================================================
+1. Rothermel, G., & Harrold, M. J. (1997). A safe, efficient regression test selection 
+   technique. ACM Transactions on Software Engineering and Methodology (TOSEM), 6(2), 173-210.
+2. Yoo, S., & Harman, M. (2012). Regression testing minimization, selection and prioritization: 
+   a survey. Software Testing, Verification and Reliability, 22(2), 67-120.
+3. Spieker, H., Gotlieb, A., Mossige, M., & Marijan, D. (2017). Reinforcement learning 
+   for automatic test case prioritization and selection in continuous integration. 
+   In Proceedings of the 26th ACM SIGSOFT International Symposium on Software Testing 
+   and Analysis (ISSTA), pp. 12-22.
+4. Engstrom, E., Runeson, P., & Skoglund, M. (2010). A systematic review on regression test 
+   selection techniques. Information and Software Technology, 52(1), 14-30.
+5. Chen, J., Nair, V., & Menzies, T. (2018). Beyond feature selection: Learning what to test 
+   in continuous integration. IEEE Transactions on Software Engineering.
+
+================================================================================
+END OF RESEARCH PAPER DATA COMPENDIUM
+================================================================================

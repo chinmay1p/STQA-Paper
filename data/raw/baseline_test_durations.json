@@ -1,0 +1,392 @@
+{
+  "tests/test_authentication.py::test_username_sanitization": {
+    "mean_duration_sec": 0.00030655998270958664,
+    "std_duration_sec": 6.43774348757396e-05,
+    "min_duration_sec": 0.00023169995984062552,
+    "max_duration_sec": 0.0003985999501310289,
+    "raw_samples": [
+      0.00023529998725280166,
+      0.00034089997643604875,
+      0.00023169995984062552,
+      0.0003985999501310289,
+      0.0003263000398874283
+    ]
+  },
+  "tests/test_authentication.py::test_password_strength_criteria": {
+    "mean_duration_sec": 0.00022873999550938607,
+    "std_duration_sec": 4.132948518087621e-05,
+    "min_duration_sec": 0.00018100003944709897,
+    "max_duration_sec": 0.00029250001534819603,
+    "raw_samples": [
+      0.00018100003944709897,
+      0.0002315999590791762,
+      0.00025099999038502574,
+      0.00029250001534819603,
+      0.00018759997328743339
+    ]
+  },
+  "tests/test_authentication.py::test_session_token_generation": {
+    "mean_duration_sec": 0.00020008001010864973,
+    "std_duration_sec": 3.261093705730769e-05,
+    "min_duration_sec": 0.00015889998758211732,
+    "max_duration_sec": 0.00025069998810067773,
+    "raw_samples": [
+      0.00015889998758211732,
+      0.00018910004291683435,
+      0.0001792000257410109,
+      0.00025069998810067773,
+      0.00022250000620260835
+    ]
+  },
+  "tests/test_authentication.py::test_session_token_verification": {
+    "mean_duration_sec": 0.0001246000174432993,
+    "std_duration_sec": 1.1580841654424079e-05,
+    "min_duration_sec": 0.00010530004510655999,
+    "max_duration_sec": 0.00014180003199726343,
+    "raw_samples": [
+      0.00012550002429634333,
+      0.00012459995923563838,
+      0.00012580002658069134,
+      0.00014180003199726343,
+      0.00010530004510655999
+    ]
+  },
+  "tests/test_authentication.py::test_rbac_permissions": {
+    "mean_duration_sec": 0.0001145399990491569,
+    "std_duration_sec": 1.63252676319187e-05,
+    "min_duration_sec": 9.029998909682035e-05,
+    "max_duration_sec": 0.00013870000839233398,
+    "raw_samples": [
+      0.00012479996075853705,
+      0.00010800000745803118,
+      0.00013870000839233398,
+      0.00011090002954006195,
+      9.029998909682035e-05
+    ]
+  },
+  "tests/test_cart.py::test_cart_add_and_accumulate": {
+    "mean_duration_sec": 0.00012903999304398895,
+    "std_duration_sec": 2.6260972498600417e-05,
+    "min_duration_sec": 0.00010609999299049377,
+    "max_duration_sec": 0.00017660000594332814,
+    "raw_samples": [
+      0.00017660000594332814,
+      0.00011969998013228178,
+      0.00013649999164044857,
+      0.00010609999299049377,
+      0.00010629999451339245
+    ]
+  },
+  "tests/test_cart.py::test_cart_remove_and_update": {
+    "mean_duration_sec": 0.0001153400051407516,
+    "std_duration_sec": 1.4262353572922266e-05,
+    "min_duration_sec": 9.819999104365706e-05,
+    "max_duration_sec": 0.00013340002624318004,
+    "raw_samples": [
+      0.00013120000949129462,
+      0.00010850001126527786,
+      0.00013340002624318004,
+      9.819999104365706e-05,
+      0.00010539998766034842
+    ]
+  },
+  "tests/test_cart.py::test_cart_weight_aggregation": {
+    "mean_duration_sec": 0.00011974000371992589,
+    "std_duration_sec": 1.743005113330839e-05,
+    "min_duration_sec": 9.579997276887298e-05,
+    "max_duration_sec": 0.00013880000915378332,
+    "raw_samples": [
+      0.00013070000568404794,
+      0.0001018000184558332,
+      0.00013880000915378332,
+      9.579997276887298e-05,
+      0.00013160001253709197
+    ]
+  },
+  "tests/test_cart.py::test_cart_capacity_overflow": {
+    "mean_duration_sec": 0.0001352400053292513,
+    "std_duration_sec": 1.5466949459101666e-05,
+    "min_duration_sec": 0.00010740000288933516,
+    "max_duration_sec": 0.00014840002404525876,
+    "raw_samples": [
+      0.00014840002404525876,
+      0.00010740000288933516,
+      0.00014560000272467732,
+      0.00012929999502375722,
+      0.000145500001963228
+    ]
+  },
+  "tests/test_cart.py::test_cart_discounted_subtotal": {
+    "mean_duration_sec": 0.00012195996241644025,
+    "std_duration_sec": 1.3121522878464813e-05,
+    "min_duration_sec": 0.0001020999625325203,
+    "max_duration_sec": 0.00014029996236786246,
+    "raw_samples": [
+      0.0001316999550908804,
+      0.0001020999625325203,
+      0.00014029996236786246,
+      0.00011699995957314968,
+      0.00011869997251778841
+    ]
+  },
+  "tests/test_discount.py::test_discount_tier_rates": {
+    "mean_duration_sec": 0.00012618000619113445,
+    "std_duration_sec": 1.3519096676032899e-05,
+    "min_duration_sec": 0.00011120003182440996,
+    "max_duration_sec": 0.00014260003808885813,
+    "raw_samples": [
+      0.00014130002819001675,
+      0.0001126999850384891,
+      0.00014260003808885813,
+      0.00011120003182440996,
+      0.00012309994781389832
+    ]
+  },
+  "tests/test_discount.py::test_discount_coupons": {
+    "mean_duration_sec": 0.0001308599836193025,
+    "std_duration_sec": 1.2318207511576364e-05,
+    "min_duration_sec": 0.00011369999265298247,
+    "max_duration_sec": 0.0001468999544158578,
+    "raw_samples": [
+      0.00013699999544769526,
+      0.00011369999265298247,
+      0.0001468999544158578,
+      0.0001194999786093831,
+      0.00013719999697059393
+    ]
+  },
+  "tests/test_discount.py::test_discount_bulk_quantities": {
+    "mean_duration_sec": 0.00013942002551630138,
+    "std_duration_sec": 2.535645155382408e-05,
+    "min_duration_sec": 0.00011110003106296062,
+    "max_duration_sec": 0.00018010003259405494,
+    "raw_samples": [
+      0.0001542000100016594,
+      0.00011660001473501325,
+      0.00018010003259405494,
+      0.00011110003106296062,
+      0.00013510003918781877
+    ]
+  },
+  "tests/test_discount.py::test_discount_seasonal_promotions": {
+    "mean_duration_sec": 0.00014896000502631068,
+    "std_duration_sec": 5.599489452037221e-05,
+    "min_duration_sec": 9.980000322684646e-05,
+    "max_duration_sec": 0.00025720003759488463,
+    "raw_samples": [
+      0.00014409999130293727,
+      0.00011679995805025101,
+      0.00025720003759488463,
+      9.980000322684646e-05,
+      0.00012690003495663404
+    ]
+  },
+  "tests/test_discount.py::test_discount_cap_boundary": {
+    "mean_duration_sec": 0.0001433800207450986,
+    "std_duration_sec": 2.246681522914441e-05,
+    "min_duration_sec": 0.00011010002344846725,
+    "max_duration_sec": 0.0001803000341169536,
+    "raw_samples": [
+      0.00013860000763088465,
+      0.0001803000341169536,
+      0.00014780001947656274,
+      0.00011010002344846725,
+      0.0001401000190526247
+    ]
+  },
+  "tests/test_orders.py::test_shipping_cost_calculation": {
+    "mean_duration_sec": 0.00015783999115228652,
+    "std_duration_sec": 4.8538712357907995e-05,
+    "min_duration_sec": 0.00010849995305761695,
+    "max_duration_sec": 0.00025069998810067773,
+    "raw_samples": [
+      0.0001490999711677432,
+      0.00025069998810067773,
+      0.0001449999981559813,
+      0.00010849995305761695,
+      0.00013590004527941346
+    ]
+  },
+  "tests/test_orders.py::test_order_totals_computation": {
+    "mean_duration_sec": 0.0001424199785105884,
+    "std_duration_sec": 1.4330862964703843e-05,
+    "min_duration_sec": 0.0001227000029757619,
+    "max_duration_sec": 0.00016170000890269876,
+    "raw_samples": [
+      0.00015459995483979583,
+      0.00013159995432943106,
+      0.00016170000890269876,
+      0.0001227000029757619,
+      0.0001414999715052545
+    ]
+  },
+  "tests/test_orders.py::test_checkout_eligibility_checks": {
+    "mean_duration_sec": 0.0001385799958370626,
+    "std_duration_sec": 1.0598736141685042e-05,
+    "min_duration_sec": 0.00011960003757849336,
+    "max_duration_sec": 0.0001498999772593379,
+    "raw_samples": [
+      0.00014570000348612666,
+      0.00011960003757849336,
+      0.0001498999772593379,
+      0.0001354999840259552,
+      0.00014219997683539987
+    ]
+  },
+  "tests/test_orders.py::test_order_status_state_machine": {
+    "mean_duration_sec": 0.00011295998701825738,
+    "std_duration_sec": 1.1251224722031087e-05,
+    "min_duration_sec": 9.310001041740179e-05,
+    "max_duration_sec": 0.00012369995238259435,
+    "raw_samples": [
+      0.00012310000602155924,
+      9.310001041740179e-05,
+      0.00012369995238259435,
+      0.00010930001735687256,
+      0.00011559994891285896
+    ]
+  },
+  "tests/test_orders.py::test_order_with_tax_exemption_and_free_shipping": {
+    "mean_duration_sec": 0.00017359998309984803,
+    "std_duration_sec": 5.207327968197476e-05,
+    "min_duration_sec": 0.00013339996803551912,
+    "max_duration_sec": 0.000276199949439615,
+    "raw_samples": [
+      0.00014540000120177865,
+      0.000276199949439615,
+      0.00016070000128820539,
+      0.00013339996803551912,
+      0.000152299995534122
+    ]
+  },
+  "tests/test_payment.py::test_luhn_algorithm_validation": {
+    "mean_duration_sec": 0.00016017999732866883,
+    "std_duration_sec": 1.7005104734295608e-05,
+    "min_duration_sec": 0.00014570000348612666,
+    "max_duration_sec": 0.00019150000298395753,
+    "raw_samples": [
+      0.00014570000348612666,
+      0.0001647999742999673,
+      0.00014809996355324984,
+      0.00019150000298395753,
+      0.00015080004232004285
+    ]
+  },
+  "tests/test_payment.py::test_gateway_fee_models": {
+    "mean_duration_sec": 0.00016524000093340874,
+    "std_duration_sec": 3.781958444091542e-05,
+    "min_duration_sec": 0.00013950001448392868,
+    "max_duration_sec": 0.00023989996407181025,
+    "raw_samples": [
+      0.00013950001448392868,
+      0.00015119998715817928,
+      0.0001404000213369727,
+      0.00023989996407181025,
+      0.00015520001761615276
+    ]
+  },
+  "tests/test_payment.py::test_fx_currency_conversion": {
+    "mean_duration_sec": 0.00013342000311240555,
+    "std_duration_sec": 1.6046723820684364e-05,
+    "min_duration_sec": 0.00010240002302452922,
+    "max_duration_sec": 0.00014730001566931605,
+    "raw_samples": [
+      0.00014730001566931605,
+      0.00013780000153928995,
+      0.0001357999863103032,
+      0.00014379998901858926,
+      0.00010240002302452922
+    ]
+  },
+  "tests/test_payment.py::test_payment_settlement_success": {
+    "mean_duration_sec": 0.00022915999870747327,
+    "std_duration_sec": 6.176497976198557e-05,
+    "min_duration_sec": 0.00015650002751499414,
+    "max_duration_sec": 0.00034199998481199145,
+    "raw_samples": [
+      0.00023359997430816293,
+      0.00034199998481199145,
+      0.00021169998217374086,
+      0.000202000024728477,
+      0.00015650002751499414
+    ]
+  },
+  "tests/test_payment.py::test_payment_settlement_failure": {
+    "mean_duration_sec": 0.00012965999776497482,
+    "std_duration_sec": 1.945637386235398e-05,
+    "min_duration_sec": 0.00010150001617148519,
+    "max_duration_sec": 0.00014730001566931605,
+    "raw_samples": [
+      0.00011089997133240104,
+      0.00014630000805482268,
+      0.00014730001566931605,
+      0.0001422999775968492,
+      0.00010150001617148519
+    ]
+  },
+  "tests/test_tax.py::test_sales_tax_jurisdictions": {
+    "mean_duration_sec": 0.00012795999646186829,
+    "std_duration_sec": 1.8002844303106177e-05,
+    "min_duration_sec": 9.889999637380242e-05,
+    "max_duration_sec": 0.00014350004494190216,
+    "raw_samples": [
+      0.00014350004494190216,
+      0.00011470000026747584,
+      0.00014109996845945716,
+      0.00014159997226670384,
+      9.889999637380242e-05
+    ]
+  },
+  "tests/test_tax.py::test_vat_calculations": {
+    "mean_duration_sec": 0.0001145999995060265,
+    "std_duration_sec": 1.5877405541009313e-05,
+    "min_duration_sec": 9.71999834291637e-05,
+    "max_duration_sec": 0.00013689999468624592,
+    "raw_samples": [
+      9.71999834291637e-05,
+      0.00011170003563165665,
+      0.00013689999468624592,
+      0.00012859998969361186,
+      9.859999408945441e-05
+    ]
+  },
+  "tests/test_tax.py::test_tax_exemption_rules": {
+    "mean_duration_sec": 0.00011229998199269176,
+    "std_duration_sec": 1.546453618766368e-05,
+    "min_duration_sec": 9.180000051856041e-05,
+    "max_duration_sec": 0.00012799998512491584,
+    "raw_samples": [
+      0.00012799998512491584,
+      9.609997505322099e-05,
+      0.0001275999820791185,
+      0.00011799996718764305,
+      9.180000051856041e-05
+    ]
+  },
+  "tests/test_tax.py::test_duty_fee_categories": {
+    "mean_duration_sec": 0.00012618000619113445,
+    "std_duration_sec": 1.3015906620330927e-05,
+    "min_duration_sec": 0.00011170003563165665,
+    "max_duration_sec": 0.0001425000373274088,
+    "raw_samples": [
+      0.0001254999660886824,
+      0.00011199997970834374,
+      0.0001425000373274088,
+      0.00013920001219958067,
+      0.00011170003563165665
+    ]
+  },
+  "tests/test_tax.py::test_composite_tax_exempt_toggle": {
+    "mean_duration_sec": 0.00010829999810084701,
+    "std_duration_sec": 1.2731533748842788e-05,
+    "min_duration_sec": 9.14999982342124e-05,
+    "max_duration_sec": 0.0001267999759875238,
+    "raw_samples": [
+      0.00010599999222904444,
+      9.14999982342124e-05,
+      0.0001267999759875238,
+      0.0001181000261567533,
+      9.90999978967011e-05
+    ]
+  }
+}

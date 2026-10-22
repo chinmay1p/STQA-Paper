@@ -1,0 +1,11 @@
+### Table 7: Random Forest Feature Importance for Test Selection
+
+| feature                  |   importance |
+|:-------------------------|-------------:|
+| dependency_overlap       |       0.5297 |
+| module_match             |       0.3296 |
+| test_execution_cost      |       0.0599 |
+| average_test_duration    |       0.0394 |
+| code_churn               |       0.0267 |
+| historical_failure_rate  |       0.0108 |
+| historical_failure_count |       0.0039 |

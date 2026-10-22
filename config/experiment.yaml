@@ -1,0 +1,90 @@
+# Experiment Configuration: AI-Based Regression Test Selection
+experiment:
+  title: "AI-Based Regression Test Selection Using Machine Learning: A Comparative Study"
+  random_seed: 42
+  num_random_repetitions: 20
+  selection_budgets: [0.25, 0.50, 0.75, 1.00]
+  model_type: "RandomForestClassifier"
+  model_params:
+    n_estimators: 100
+    max_depth: 5
+    min_samples_split: 2
+    random_state: 42
+
+environment:
+  test_framework: "pytest"
+  python_executable: ".venv/Scripts/python.exe"
+  test_directory: "tests"
+  target_package: "sample_app"
+
+scenario_split:
+  train_scenarios:
+    - "SC-01"
+    - "SC-02"
+    - "SC-03"
+    - "SC-04"
+    - "SC-05"
+    - "SC-06"
+    - "SC-07"
+    - "SC-08"
+    - "SC-09"
+    - "SC-10"
+  test_scenarios:
+    - "SC-11"
+    - "SC-12"
+    - "SC-13"
+    - "SC-14"
+    - "SC-15"
+    - "SC-16"
+
+module_dependencies:
+  discount: []
+  tax: []
+  authentication: []
+  cart:
+    - "discount"
+  orders:
+    - "cart"
+    - "tax"
+    - "discount"
+    - "authentication"
+  payment:
+    - "orders"
+
+# Test to module mapping for the 30 regression tests
+test_module_map:
+  tests/test_discount.py::test_discount_tier_rates: "discount"
+  tests/test_discount.py::test_discount_coupons: "discount"
+  tests/test_discount.py::test_discount_bulk_quantities: "discount"
+  tests/test_discount.py::test_discount_seasonal_promotions: "discount"
+  tests/test_discount.py::test_discount_cap_boundary: "discount"
+
+  tests/test_tax.py::test_sales_tax_jurisdictions: "tax"
+  tests/test_tax.py::test_vat_calculations: "tax"
+  tests/test_tax.py::test_tax_exemption_rules: "tax"
+  tests/test_tax.py::test_duty_fee_categories: "tax"
+  tests/test_tax.py::test_composite_tax_exempt_toggle: "tax"
+
+  tests/test_authentication.py::test_username_sanitization: "authentication"
+  tests/test_authentication.py::test_password_strength_criteria: "authentication"
+  tests/test_authentication.py::test_session_token_generation: "authentication"
+  tests/test_authentication.py::test_session_token_verification: "authentication"
+  tests/test_authentication.py::test_rbac_permissions: "authentication"
+
+  tests/test_cart.py::test_cart_add_and_accumulate: "cart"
+  tests/test_cart.py::test_cart_remove_and_update: "cart"
+  tests/test_cart.py::test_cart_weight_aggregation: "cart"
+  tests/test_cart.py::test_cart_capacity_overflow: "cart"
+  tests/test_cart.py::test_cart_discounted_subtotal: "cart"
+
+  tests/test_orders.py::test_shipping_cost_calculation: "orders"
+  tests/test_orders.py::test_order_totals_computation: "orders"
+  tests/test_orders.py::test_checkout_eligibility_checks: "orders"
+  tests/test_orders.py::test_order_status_state_machine: "orders"
+  tests/test_orders.py::test_order_with_tax_exemption_and_free_shipping: "orders"
+
+  tests/test_payment.py::test_luhn_algorithm_validation: "payment"
+  tests/test_payment.py::test_gateway_fee_models: "payment"
+  tests/test_payment.py::test_fx_currency_conversion: "payment"
+  tests/test_payment.py::test_payment_settlement_success: "payment"
+  tests/test_payment.py::test_payment_settlement_failure: "payment"
